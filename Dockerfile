@@ -1,7 +1,5 @@
 FROM node:alpine
 
-#ENV NODE_ENV production
-
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -19,5 +17,5 @@ COPY . .
 
 EXPOSE 3000
 
-#ENTRYPOINT [ "node", "app.js" ]
-CMD ["npm", "run", "dev"]
+ENTRYPOINT [ "node", "app.js" ]
+#CMD ["npm", "run", "production"]
