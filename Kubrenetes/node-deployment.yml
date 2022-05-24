@@ -62,4 +62,4 @@ spec:
               service:
                 name: node-app-service
                 port:
-                  number: 80
+                  number: 4000
