@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-app-service
+  namespace: antcolony
+spec:
+  type: LoadBalancer
+  selector:
+    app: node-app
+  ports:
+    - port: 4000
+      protocol: TCP
+      targetPort: 4000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+  namespace: antcolony
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-app
+          image: chorba/antcolony:node-express-app.latest
+          env:
+          - name: PORT
+            value: "4000"
+          - name: NODE_ENV
+            value: "production"
+          - name: SECRET
+            value: "conduit"
+          - name: MONGODB_URI
+            value: "mongodb://mongo:27017/conduit"
+          ports:
+            - containerPort: 4000
+      imagePullSecrets:
+        - name: docker-credentials
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: node-app-ingress
+  namespace: antcolony
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: node-app.test
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: node-app-service
+                port:
+                  number: 80
