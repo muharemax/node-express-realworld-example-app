@@ -4,7 +4,7 @@ metadata:
   name: node-app-service
   namespace: antcolony
 spec:
-  type: LoadBalancer
+  #type: LoadBalancer
   selector:
     app: node-app
   ports:
