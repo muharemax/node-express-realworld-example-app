@@ -34,13 +34,6 @@ pipeline {
                 bat "docker rmi ${DockerHubRepo}:node-express-app.v${BUILD_NUMBER}"
             }
         }
-
-        /* stage('Undeploy from k8s cluster') {
-            steps{
-                bat "kubectl delete -f Kubernetes/db-deployment.yml"
-                bat "kubectl delete -f Kubernetes/backend-deployment.yml"
-            }
-        } */
         
         stage('Deploy to k8s cluster') {
             steps{
