@@ -14,8 +14,6 @@ services:
     container_name: node_express_app
     restart: always
     build: .
-    #volumes:
-    #  - ".:/app"
     ports:
       - "4000:4000"
     environment:
